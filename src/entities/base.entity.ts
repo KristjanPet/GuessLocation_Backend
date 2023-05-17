@@ -1,12 +1,18 @@
-import { BaseEntity, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { Expose } from 'class-transformer'
+import { IsUUID } from 'class-validator'
+import { CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
-export class Base extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number
+export class Base {
+  @PrimaryGeneratedColumn('uuid')
+  @IsUUID()
+  @Expose()
+  id: string
 
   @CreateDateColumn()
-  createdAt: Date
+  @Expose()
+  created_at: Date
 
   @UpdateDateColumn()
-  updatedAt: Date
+  @Expose()
+  updated_at: Date
 }

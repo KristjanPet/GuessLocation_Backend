@@ -1,6 +1,9 @@
 import { Exclude } from 'class-transformer'
 import { Column, Entity, ManyToOne, JoinColumn, OneToMany } from 'typeorm'
 import { Base } from './base.entity'
+import { Location } from './location.entity'
+import { Log } from './log.entity'
+import { Guess } from './guess.entity'
 
 @Entity()
 export class User extends Base {
@@ -16,13 +19,19 @@ export class User extends Base {
   @Column({ nullable: true })
   avatar: string
 
+  @Column({ nullable: false, default: false })
+  admin: boolean
+
   @Column({ nullable: false })
   @Exclude()
   password: string
 
-  // @OneToMany(() => Quote, (quote) => quote.author)
-  // quote: Quote[]
+  @OneToMany(() => Log, (log) => log.user)
+  logs: Log[]
 
-  // @OneToMany(() => Vote, (vote) => vote.user)
-  // vote: Vote[]
+  @OneToMany(() => Location, (location) => location.user)
+  locations: Location[]
+
+  @OneToMany(() => Guess, (guess) => guess.user)
+  guesses: Guess[]
 }
