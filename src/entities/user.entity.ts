@@ -29,7 +29,7 @@ export class User extends Base {
   @OneToMany(() => Log, (log) => log.user)
   logs: Log[]
 
-  @OneToMany(() => Location, (location) => location.user)
+  @OneToMany(() => Location, (location) => location.author)
   locations: Location[]
 
   @OneToMany(() => Guess, (guess) => guess.user)

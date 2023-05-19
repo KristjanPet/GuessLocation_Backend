@@ -6,6 +6,7 @@ import { configValidationSchema } from 'config/schema.config'
 import { LoggerMiddleware } from 'middleware/logger.middleware'
 import { DatabaseModule } from './database/database.module'
 import { UserModule } from './user/user.module'
+import { LocationModule } from './location/location.module'
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { UserModule } from './user/user.module'
     DatabaseModule,
     AuthModule,
     UserModule,
+    LocationModule,
   ],
   controllers: [],
   providers: [],

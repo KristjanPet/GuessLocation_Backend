@@ -18,7 +18,8 @@ import { RegisterUserDto } from './dto/register-user.dto'
 import { LocalAuthGuard } from './guards/local-auth.guard'
 import { RequestWithUser } from 'interfaces/auth.interface'
 import { Request, Response } from 'express'
-import { ApiBadRequestResponse, ApiCreatedResponse, ApiTags } from '@nestjs/swagger/dist/index'
+import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiTags } from '@nestjs/swagger/dist/index'
+import { LoginUserDto } from './dto/login-user.dto'
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -41,6 +42,7 @@ export class AuthController {
   @Post('login')
   @UseGuards(LocalAuthGuard)
   @HttpCode(HttpStatus.OK)
+  @ApiBody({ type: LoginUserDto })
   async login(@Req() req: RequestWithUser, @Res({ passthrough: true }) res: Response): Promise<User> {
     const access_token = await this.authService.generateJwt(req.user)
     res.cookie('access_token', access_token, {

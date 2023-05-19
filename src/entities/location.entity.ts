@@ -20,7 +20,7 @@ export class Location extends Base {
 
   @ManyToOne(() => User, (user) => user.locations)
   @JoinColumn({ name: 'authorId' })
-  user: User
+  author: User
 
   @OneToMany(() => Guess, (guess) => guess.location)
   guesses: Guess[]
