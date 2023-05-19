@@ -32,7 +32,7 @@ async function bootstrap() {
   })
 
   app.enableCors({
-    origin: ['http://localhost:3000', 'https://upvote-downvote-quotes-frontend-pzdtodfoz-kristjanpet.vercel.app'],
+    origin: ['http://localhost:3000'],
     credentials: true,
   })
   app.use(cookieParser())

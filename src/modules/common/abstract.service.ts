@@ -55,14 +55,18 @@ export abstract class AbstractService {
     }
   }
 
-  async paginate(page = 1, relations = []): Promise<PaginatedResult> {
-    const take = 3
-
+  async paginate(
+    page = 1,
+    take: number,
+    relations = [],
+    order?: Record<string, 'ASC' | 'DESC'>,
+  ): Promise<PaginatedResult> {
     try {
       const [data, total] = await this.repository.findAndCount({
-        take: page * take,
-        // skip: (page - 1) * take,
+        take,
+        skip: (page - 1) * take,
         relations,
+        order,
       })
 
       return {
@@ -74,7 +78,7 @@ export abstract class AbstractService {
       }
     } catch (error) {
       Logging.error(error)
-      throw new InternalServerErrorException(`Something went wrong while searching for a paginated element`)
+      throw new InternalServerErrorException('Something went wrong while searching for a paginated elements.')
     }
   }
 }

@@ -14,6 +14,8 @@ import {
   UploadedFile,
   BadRequestException,
   Req,
+  Inject,
+  forwardRef,
 } from '@nestjs/common'
 import { UserService } from './user.service'
 import { User } from 'entities/user.entity'
@@ -25,12 +27,21 @@ import { join } from 'path'
 import { Request, Response } from 'express'
 import { AuthService } from 'modules/auth/auth.service'
 import { ApiBadRequestResponse, ApiCreatedResponse, ApiTags } from '@nestjs/swagger/dist/index'
+import { LocationService } from 'modules/location/location.service'
+import { PaginatedResult } from 'interfaces/paginated-result.interface'
 
 @ApiTags('User')
 @Controller('user')
 @UseInterceptors(ClassSerializerInterceptor)
 export class UserController {
-  constructor(private readonly userService: UserService, private readonly authService: AuthService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly authService: AuthService,
+    @Inject(forwardRef(() => LocationService))
+    private readonly locationService: LocationService,
+  ) {}
+
+  // GET
 
   @ApiCreatedResponse({ description: 'List all users.' })
   @ApiBadRequestResponse({ description: 'Error for list of users' })
@@ -47,6 +58,20 @@ export class UserController {
   async findOne(@Param('id') id: string): Promise<User> {
     return this.userService.findById(id, ['quote'])
   }
+
+  @ApiCreatedResponse({ description: 'List of users locations.' })
+  @ApiBadRequestResponse({ description: 'Error for users locations' })
+  @Get(':id/location')
+  @HttpCode(HttpStatus.OK)
+  async findByUser(
+    @Param('id') userId: string,
+    @Query('page') page: number,
+    @Query('take') take: number,
+  ): Promise<PaginatedResult> {
+    return await this.locationService.findByUserPaginated(userId, page, take)
+  }
+
+  //POST
 
   @ApiCreatedResponse({ description: 'Create a user.' })
   @ApiBadRequestResponse({ description: 'Error for creating a user' })
@@ -75,14 +100,16 @@ export class UserController {
     throw new BadRequestException('File content does not match')
   }
 
-  @ApiCreatedResponse({ description: 'Update users password.' })
-  @ApiBadRequestResponse({ description: 'Error updating users password' })
-  @Patch('/update-password')
-  @HttpCode(HttpStatus.OK)
-  async update(@Body() updateUserDto: UpdateUserDto, @Req() req: Request): Promise<User> {
-    const cookie = req.cookies['access_token']
-    return this.userService.update(cookie, updateUserDto)
-  }
+  // PATCH
+
+  // @ApiCreatedResponse({ description: 'Update users password.' })
+  // @ApiBadRequestResponse({ description: 'Error updating users password' })
+  // @Patch('/update-password')
+  // @HttpCode(HttpStatus.OK)
+  // async update(@Body() updateUserDto: UpdateUserDto, @Req() req: Request): Promise<User> {
+  //   const cookie = req.cookies['access_token']
+  //   return this.userService.update(cookie, updateUserDto)
+  // }
 
   @ApiCreatedResponse({ description: 'Update users info.' })
   @ApiBadRequestResponse({ description: 'Error updating users info' })
@@ -93,6 +120,7 @@ export class UserController {
     return this.userService.update(cookie, updateUserDto)
   }
 
+  // DELTE
   @ApiCreatedResponse({ description: 'Delete user.' })
   @ApiBadRequestResponse({ description: 'Error deleting user' })
   @Delete(':id')
