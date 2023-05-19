@@ -7,6 +7,7 @@ import { LoggerMiddleware } from 'middleware/logger.middleware'
 import { DatabaseModule } from './database/database.module'
 import { UserModule } from './user/user.module'
 import { LocationModule } from './location/location.module'
+import { GuessModule } from './guess/guess.module'
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { LocationModule } from './location/location.module'
     AuthModule,
     UserModule,
     LocationModule,
+    GuessModule,
   ],
   controllers: [],
   providers: [],
