@@ -17,9 +17,15 @@ export class LogService extends AbstractService {
     super(logRepository)
   }
 
-  async findAllPaginated(page: number, take: number): Promise<PaginatedResult> {
+  async findAllPaginated(cookie: string, page: number, take: number): Promise<PaginatedResult> {
     try {
-      return await this.paginate(page, take, ['user'], { created_at: 'DESC' })
+      const user = await this.authService.user(cookie)
+      if (user.admin) {
+        return await this.paginate(page, take, ['user'], { created_at: 'DESC' })
+      } else {
+        Logging.error('This user do not have premission to see logs.')
+        throw new InternalServerErrorException('This user do not have premission to see logs.')
+      }
     } catch (error) {
       Logging.error(error)
       throw new InternalServerErrorException('something went wrong while searching for all locations')

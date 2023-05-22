@@ -39,8 +39,13 @@ export class LogController {
   @Public()
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(@Query('page') page: number, @Query('take') take: number): Promise<PaginatedResult> {
-    return await this.logService.findAllPaginated(page, take)
+  async findAll(
+    @Req() req: Request,
+    @Query('page') page: number,
+    @Query('take') take: number,
+  ): Promise<PaginatedResult> {
+    const cookie = req.cookies['access_token']
+    return await this.logService.findAllPaginated(cookie, page, take)
   }
 
   //POST
