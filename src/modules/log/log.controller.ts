@@ -23,6 +23,8 @@ import { ApiBadRequestResponse, ApiCreatedResponse, ApiTags } from '@nestjs/swag
 import { PaginatedResult } from 'interfaces/paginated-result.interface'
 import { Location } from 'entities/location.entity'
 import { LogService } from './log.service'
+import { CreateLogDto } from './dto/create-log.dto'
+import { Log } from 'entities/log.entity'
 
 @ApiTags('Log')
 @Controller('log')
@@ -32,12 +34,23 @@ export class LogController {
 
   //GET
 
-  @ApiCreatedResponse({ description: 'List of latest locations.' })
-  @ApiBadRequestResponse({ description: 'Error for list of locations' })
+  @ApiCreatedResponse({ description: 'List of latest logs.' })
+  @ApiBadRequestResponse({ description: 'Error for list of logs' })
   @Public()
   @Get()
   @HttpCode(HttpStatus.OK)
   async findAll(@Query('page') page: number, @Query('take') take: number): Promise<PaginatedResult> {
     return await this.logService.findAllPaginated(page, take)
+  }
+
+  //POST
+
+  @ApiCreatedResponse({ description: 'Create log.' })
+  @ApiBadRequestResponse({ description: 'Error for creating log' })
+  @Post()
+  @HttpCode(HttpStatus.OK)
+  async create(@Body() createLogDto: CreateLogDto, @Req() req: Request): Promise<Log> {
+    const cookie = req.cookies['access_token']
+    return await this.logService.create(createLogDto, cookie)
   }
 }
