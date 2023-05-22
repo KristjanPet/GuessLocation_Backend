@@ -1,15 +1,15 @@
 import { Exclude } from 'class-transformer'
-import { Column, Entity, ManyToOne, JoinColumn, OneToMany } from 'typeorm'
+import { Column, Entity, ManyToOne, JoinColumn, OneToMany, Double } from 'typeorm'
 import { Base } from './base.entity'
 import { User } from './user.entity'
 import { Guess } from './guess.entity'
 
 @Entity()
 export class Location extends Base {
-  @Column({})
+  @Column({ type: 'float' })
   lon: number
 
-  @Column({})
+  @Column({ type: 'float' })
   lat: number
 
   @Column({ nullable: true })
