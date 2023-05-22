@@ -29,4 +29,15 @@ import { LogService } from './log.service'
 @UseInterceptors(ClassSerializerInterceptor)
 export class LogController {
   constructor(private readonly logService: LogService) {}
+
+  //GET
+
+  @ApiCreatedResponse({ description: 'List of latest locations.' })
+  @ApiBadRequestResponse({ description: 'Error for list of locations' })
+  @Public()
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  async findAll(@Query('page') page: number, @Query('take') take: number): Promise<PaginatedResult> {
+    return await this.logService.findAllPaginated(page, take)
+  }
 }
