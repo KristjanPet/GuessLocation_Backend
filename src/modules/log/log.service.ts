@@ -28,7 +28,7 @@ export class LogService extends AbstractService {
       }
     } catch (error) {
       Logging.error(error)
-      throw new InternalServerErrorException('something went wrong while searching for all locations')
+      throw new InternalServerErrorException('something went wrong while searching for all logs')
     }
   }
 
