@@ -20,6 +20,7 @@ import { RequestWithUser } from 'interfaces/auth.interface'
 import { Request, Response } from 'express'
 import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiTags } from '@nestjs/swagger/dist/index'
 import { LoginUserDto } from './dto/login-user.dto'
+import { ForgotPasswordDto } from './dto/forgot-password.dto'
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -61,6 +62,15 @@ export class AuthController {
   async user(@Req() req: Request): Promise<User> {
     const cookie = req.cookies['access_token']
     return this.authService.user(cookie)
+  }
+
+  @ApiCreatedResponse({ description: 'Forgot password.' })
+  @ApiBadRequestResponse({ description: 'Error geting restart token' })
+  @Public()
+  @Post('forgot-password')
+  @HttpCode(HttpStatus.OK)
+  async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto): Promise<{ msg: string }> {
+    return this.authService.forgotPassword(forgotPasswordDto)
   }
 
   @ApiCreatedResponse({ description: 'Signout user.' })

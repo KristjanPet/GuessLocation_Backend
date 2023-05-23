@@ -34,4 +34,8 @@ export class User extends Base {
 
   @OneToMany(() => Guess, (guess) => guess.user)
   guesses: Guess[]
+
+  @Column({ nullable: true, default: null })
+  @Exclude()
+  token: string
 }
