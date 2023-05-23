@@ -10,6 +10,13 @@ import { UserService } from 'modules/user/user.service'
 import { ForgotPasswordDto } from './dto/forgot-password.dto'
 import { randomUUID } from 'crypto'
 import axios from 'axios'
+import { ResetPasswordDto } from './dto/reset-password.dto'
+
+const SibApiV3Sdk = require('sib-api-v3-sdk')
+const defaultClient = SibApiV3Sdk.ApiClient.instance
+
+var apiKey = defaultClient.authentications['api-key']
+apiKey.apiKey = process.env.EMAIL_API_KEY
 
 @Injectable()
 export class AuthService {
@@ -62,12 +69,6 @@ export class AuthService {
     }
     user.token = randomUUID()
 
-    const SibApiV3Sdk = require('sib-api-v3-sdk')
-    const defaultClient = SibApiV3Sdk.ApiClient.instance
-
-    var apiKey = defaultClient.authentications['api-key']
-    apiKey.apiKey = process.env.EMAIL_API_KEY
-
     const url = `${process.env.FRONTEND_URL}/reset-password/${user.token}`
     const text = `Clik this ${url} to reset password`
 
@@ -90,10 +91,23 @@ export class AuthService {
         textContent: text,
         htmlContent: `<html><head></head><body>${text}</body></html>`,
       })
-      return { msg: 'Mail send' }
+      await this.userService.updateUser(user)
+      return { msg: 'Reset link send' }
     } catch (error) {
       Logging.error(error)
       throw new BadRequestException('something went wrong while sending an email')
     }
+  }
+
+  async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<User> {
+    const user = await this.userService.findBy({ token: resetPasswordDto.token })
+    if (!user) {
+      throw new InternalServerErrorException('Can not find this user')
+    }
+
+    const hashedPassword: string = await hash(resetPasswordDto.password)
+    user.password = hashedPassword
+    user.token = null
+    return await this.userService.updateUser(user)
   }
 }

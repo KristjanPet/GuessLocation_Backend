@@ -21,6 +21,7 @@ import { Request, Response } from 'express'
 import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiTags } from '@nestjs/swagger/dist/index'
 import { LoginUserDto } from './dto/login-user.dto'
 import { ForgotPasswordDto } from './dto/forgot-password.dto'
+import { ResetPasswordDto } from './dto/reset-password.dto'
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -71,6 +72,15 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto): Promise<{ msg: string }> {
     return this.authService.forgotPassword(forgotPasswordDto)
+  }
+
+  @ApiCreatedResponse({ description: 'Reset password.' })
+  @ApiBadRequestResponse({ description: 'Error reseting password' })
+  @Public()
+  @Post('reset-password')
+  @HttpCode(HttpStatus.OK)
+  async resetPassword(@Body() resetPasswordDto: ResetPasswordDto): Promise<User> {
+    return this.authService.resetPassword(resetPasswordDto)
   }
 
   @ApiCreatedResponse({ description: 'Signout user.' })

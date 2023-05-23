@@ -64,4 +64,17 @@ export class UserService extends AbstractService {
     const user = await this.findById(id)
     return this.update(user.id, { avatar })
   }
+
+  async updateUser(user: User): Promise<User> {
+    try {
+      Object.entries(user).map((entry) => {
+        user[entry[0]] = entry[1]
+      })
+
+      return this.userRepository.save(user)
+    } catch (error) {
+      Logging.error(error)
+      throw new InternalServerErrorException('something went wrong updating user')
+    }
+  }
 }
