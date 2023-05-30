@@ -42,6 +42,10 @@ export class AuthService {
   }
 
   async register(registerUserDto: RegisterUserDto): Promise<User> {
+    const user = await this.userService.findBy({ email: registerUserDto.email })
+    if (user) {
+      throw new BadRequestException('Email already used')
+    }
     Logging.info(`Registrira uporanbika: ${registerUserDto.email}`)
     const hashedPassword: string = await hash(registerUserDto.password)
     return await this.userService.create({

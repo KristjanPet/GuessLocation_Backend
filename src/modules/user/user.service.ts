@@ -23,7 +23,7 @@ export class UserService extends AbstractService {
   async create(createUserDto: CreateUserDto): Promise<User> {
     const user = await this.findBy({ email: createUserDto.email })
     if (user) {
-      throw new BadRequestException('User already exist')
+      throw new BadRequestException('Email already used')
     }
     try {
       const newUser = this.userRepository.create({ ...createUserDto })
@@ -34,8 +34,7 @@ export class UserService extends AbstractService {
     }
   }
 
-  async update(cookie: string, updateUserDto: UpdateUserDto): Promise<User> {
-    const user = (await this.authService.user(cookie)) as User
+  async update(user: User, updateUserDto: UpdateUserDto): Promise<User> {
     const { password, confirm_password, ...data } = updateUserDto
 
     if (password && confirm_password) {
@@ -61,8 +60,12 @@ export class UserService extends AbstractService {
   }
 
   async updateUserImageId(id: string, avatar: string): Promise<User> {
+    // console.log("Pride v service funkcijo")
+
     const user = await this.findById(id)
-    return this.update(user.id, { avatar })
+    // console.log(user);
+
+    return this.update(user, { avatar })
   }
 
   async updateUser(user: User): Promise<User> {

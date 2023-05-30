@@ -87,17 +87,17 @@ export class UserController {
   @UseInterceptors(FileInterceptor('avatar', saveImageToStorage))
   @HttpCode(HttpStatus.CREATED)
   async upload(@UploadedFile() file: Express.Multer.File, @Param('id') id: string): Promise<User> {
-    const filename = file.filename
+    const filename = file?.filename
 
-    if (!filename) throw new BadRequestException('file must be png jpg or jpeg')
+    if (!filename) throw new BadRequestException('File must be a png, jpg/jpeg')
 
-    const imageFolderPath = join(process.cwd(), 'files')
-    const fullImagePath = join(imageFolderPath + '/' + file.filename)
+    const imagesFolderPath = join(process.cwd(), 'files')
+    const fullImagePath = join(imagesFolderPath + '/' + file.filename)
     if (await isFileExtensionSafe(fullImagePath)) {
       return this.userService.updateUserImageId(id, filename)
     }
     removeFile(fullImagePath)
-    throw new BadRequestException('File content does not match')
+    throw new BadRequestException('File content does not match extension!')
   }
 
   // PATCH
@@ -117,7 +117,8 @@ export class UserController {
   @HttpCode(HttpStatus.OK)
   async updateUser(@Body() updateUserDto: UpdateUserDto, @Req() req: Request): Promise<User> {
     const cookie = req.cookies['access_token']
-    return this.userService.update(cookie, updateUserDto)
+    const user = (await this.authService.user(cookie)) as User
+    return this.userService.update(user, updateUserDto)
   }
 
   // DELTE

@@ -35,6 +35,8 @@ export class AuthController {
   @Post('signup')
   @HttpCode(HttpStatus.CREATED)
   async register(@Body() body: RegisterUserDto): Promise<User> {
+    // console.log(body)
+
     return this.authService.register(body)
   }
 

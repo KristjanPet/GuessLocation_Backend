@@ -32,12 +32,15 @@ export const saveImageToStorage: Options = {
 }
 
 export const isFileExtensionSafe = async (fullFilePath: string): Promise<boolean> => {
+  // console.log(`preverja file`)
+
   return (await FileType).fileTypeFromFile(fullFilePath).then((fileExtensionAndMimeType) => {
     if (!fileExtensionAndMimeType?.ext) return false
 
     const isFileTypeLegit = validFileExtensions.includes(fileExtensionAndMimeType.ext as validFileExtensionsType)
-    const isMimeTypeLegit = validMimeTypes.includes(fileExtensionAndMimeType.ext as validMimeType)
+    const isMimeTypeLegit = validMimeTypes.includes(fileExtensionAndMimeType.mime as validMimeType)
     const isFileLegit = isFileTypeLegit && isMimeTypeLegit
+    // console.log(`vrne: ${fileExtensionAndMimeType.ext} ${JSON.stringify(validMimeTypes)} ${isFileTypeLegit}`)
     return isFileLegit
   })
 }
