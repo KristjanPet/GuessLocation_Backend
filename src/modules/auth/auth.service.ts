@@ -15,9 +15,6 @@ import { ResetPasswordDto } from './dto/reset-password.dto'
 const SibApiV3Sdk = require('sib-api-v3-sdk')
 const defaultClient = SibApiV3Sdk.ApiClient.instance
 
-var apiKey = defaultClient.authentications['api-key']
-apiKey.apiKey = process.env.EMAIL_API_KEY
-
 @Injectable()
 export class AuthService {
   constructor(
@@ -72,6 +69,9 @@ export class AuthService {
       throw new InternalServerErrorException('User not found')
     }
     user.token = randomUUID()
+
+    var apiKey = defaultClient.authentications['api-key']
+    apiKey.apiKey = process.env.EMAIL_API_KEY
 
     const url = `${process.env.FRONTEND_URL}/reset-password/${user.token}`
     const text = `Clik this ${url} to reset password`
