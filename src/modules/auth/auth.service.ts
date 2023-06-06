@@ -73,7 +73,7 @@ export class AuthService {
     var apiKey = defaultClient.authentications['api-key']
     apiKey.apiKey = process.env.EMAIL_API_KEY
 
-    const url = `${process.env.FRONTEND_URL}/reset-password?token=${user.token}`
+    const url = `${process.env.FRONTEND_URL}/reset_password?token=${user.token}`
     const text = `Clik this ${url} to reset password`
 
     const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi()
