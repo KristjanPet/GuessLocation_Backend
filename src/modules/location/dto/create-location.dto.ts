@@ -16,6 +16,6 @@ export class CreateLocationDto {
   name: string
 
   @ApiProperty({ required: true })
-  @IsNotEmpty()
+  @IsOptional()
   avatar: string
 }
