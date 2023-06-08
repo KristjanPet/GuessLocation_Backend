@@ -86,12 +86,18 @@ export class LocationController {
     @Req() req: Request,
   ): Promise<Location> {
     const filename = file?.filename
+    const location = await this.locationService.findById(id)
 
     if (!filename) throw new BadRequestException('File must be a png, jpg/jpeg')
     const updateLocationDto: UpdateLocationDto = { avatar: filename }
 
     const imagesFolderPath = join(process.cwd(), 'files')
     const fullImagePath = join(imagesFolderPath + '/' + file.filename)
+    if (location.avatar) {
+      const oldFullImagePath = join(imagesFolderPath + '/' + location.avatar)
+      console.warn(`${oldFullImagePath} is removed`)
+      removeFile(oldFullImagePath)
+    }
     const cookie = req.cookies['access_token']
 
     if (await isFileExtensionSafe(fullImagePath)) {
