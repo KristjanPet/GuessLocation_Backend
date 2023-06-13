@@ -40,7 +40,7 @@ export class GuessController {
     return await this.guessService.findByUserId(userId, page, take)
   }
 
-  @ApiCreatedResponse({ description: 'List all guesses by user sorted by distance.' })
+  @ApiCreatedResponse({ description: 'List all guesses by location sorted by distance.' })
   @ApiBadRequestResponse({ description: 'Error getting list of guesses' })
   @Get(':id/location')
   @HttpCode(HttpStatus.OK)
