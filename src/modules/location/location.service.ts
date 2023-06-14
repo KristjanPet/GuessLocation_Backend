@@ -39,8 +39,8 @@ export class LocationService extends AbstractService {
 
   async getRandomLocation(): Promise<Location> {
     try {
-      const allQuotes = await this.findAll(['author', 'guesses'])
-      return allQuotes[Math.floor(Math.random() * allQuotes.length)]
+      const allLocations = await this.findAll(['author', 'guesses'])
+      return allLocations[Math.floor(Math.random() * allLocations.length)]
     } catch (error) {
       Logging.error(error)
       throw new InternalServerErrorException('Something went wrong while getting a random location')

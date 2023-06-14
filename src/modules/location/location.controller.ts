@@ -109,8 +109,8 @@ export class LocationController {
 
   // PATCH
 
-  @ApiCreatedResponse({ description: 'Update users info.' })
-  @ApiBadRequestResponse({ description: 'Error updating users info' })
+  @ApiCreatedResponse({ description: 'Update location info.' })
+  @ApiBadRequestResponse({ description: 'Error updating location info' })
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
   async update(
@@ -123,8 +123,8 @@ export class LocationController {
   }
 
   // DELTE
-  @ApiCreatedResponse({ description: 'Delete user.' })
-  @ApiBadRequestResponse({ description: 'Error deleting user' })
+  @ApiCreatedResponse({ description: 'Delete location.' })
+  @ApiBadRequestResponse({ description: 'Error deleting location' })
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
   async remove(@Param('id') id: string): Promise<Location> {

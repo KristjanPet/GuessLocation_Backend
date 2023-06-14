@@ -51,24 +51,27 @@ export class UserController {
     return this.userService.findAll()
   }
 
+  @ApiCreatedResponse({ description: 'List of users locations.' })
+  @ApiBadRequestResponse({ description: 'Error for users locations' })
+  @Get('/location')
+  @HttpCode(HttpStatus.OK)
+  async findByUser(
+    // @Param('id') userId: string,
+    @Req() req: Request,
+    @Query('page') page: number,
+    @Query('take') take: number,
+  ): Promise<PaginatedResult> {
+    const cookie = req.cookies['access_token']
+    const user = (await this.authService.user(cookie)) as User
+    return await this.locationService.findByUserPaginated(user.id, page, take)
+  }
+
   @ApiCreatedResponse({ description: 'Get one user.' })
   @ApiBadRequestResponse({ description: 'Error getting one user' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(@Param('id') id: string): Promise<User> {
-    return this.userService.findById(id, ['quote'])
-  }
-
-  @ApiCreatedResponse({ description: 'List of users locations.' })
-  @ApiBadRequestResponse({ description: 'Error for users locations' })
-  @Get(':id/location')
-  @HttpCode(HttpStatus.OK)
-  async findByUser(
-    @Param('id') userId: string,
-    @Query('page') page: number,
-    @Query('take') take: number,
-  ): Promise<PaginatedResult> {
-    return await this.locationService.findByUserPaginated(userId, page, take)
+    return this.userService.findById(id, [])
   }
 
   //POST
