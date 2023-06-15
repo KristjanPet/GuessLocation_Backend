@@ -36,6 +36,7 @@ export class UserService extends AbstractService {
 
   async update(user: User, updateUserDto: UpdateUserDto): Promise<User> {
     const { password, confirm_password, ...data } = updateUserDto
+    // console.log(updateUserDto)
 
     if (password && confirm_password) {
       if (password !== confirm_password) {
