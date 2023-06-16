@@ -1,8 +1,8 @@
-import { Exclude } from 'class-transformer'
-import { Column, Entity, ManyToOne, JoinColumn, OneToMany, Double } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
+
 import { Base } from './base.entity'
-import { User } from './user.entity'
 import { Guess } from './guess.entity'
+import { User } from './user.entity'
 
 @Entity()
 export class Location extends Base {

@@ -1,6 +1,6 @@
 import { InternalServerErrorException } from '@nestjs/common'
-import Logging from 'library/Logging'
 import * as bcrypt from 'bcrypt'
+import Logging from 'library/Logging'
 
 export const hash = async (data: string, salt = 10): Promise<string> => {
   try {

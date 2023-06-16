@@ -1,18 +1,18 @@
-import { BadRequestException, Inject, Injectable, InternalServerErrorException, forwardRef } from '@nestjs/common'
+import { BadRequestException, forwardRef, Inject, Injectable, InternalServerErrorException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
-import { User } from 'entities/user.entity'
-import Logging from 'library/Logging'
-import { UserModule } from 'modules/user/user.module'
-import { compareHash, hash } from 'utils/bcrypt'
-import { RegisterUserDto } from './dto/register-user.dto'
-import { JwtPayload } from 'interfaces/JwtPayload.interface'
-import { UserService } from 'modules/user/user.service'
-import { ForgotPasswordDto } from './dto/forgot-password.dto'
 import { randomUUID } from 'crypto'
-import axios from 'axios'
+import { User } from 'entities/user.entity'
+import { JwtPayload } from 'interfaces/JwtPayload.interface'
+import Logging from 'library/Logging'
+import { UserService } from 'modules/user/user.service'
+import SibApiV3Sdk from 'sib-api-v3-sdk'
+import { compareHash, hash } from 'utils/bcrypt'
+
+import { ForgotPasswordDto } from './dto/forgot-password.dto'
+import { RegisterUserDto } from './dto/register-user.dto'
 import { ResetPasswordDto } from './dto/reset-password.dto'
 
-const SibApiV3Sdk = require('sib-api-v3-sdk')
+// const SibApiV3Sdk = require('sib-api-v3-sdk')
 const defaultClient = SibApiV3Sdk.ApiClient.instance
 
 @Injectable()
@@ -70,7 +70,7 @@ export class AuthService {
     }
     user.token = randomUUID()
 
-    var apiKey = defaultClient.authentications['api-key']
+    const apiKey = defaultClient.authentications['api-key']
     apiKey.apiKey = process.env.EMAIL_API_KEY
 
     const url = `${process.env.FRONTEND_URL}/reset_password?token=${user.token}`
@@ -88,7 +88,7 @@ export class AuthService {
     ]
 
     try {
-      const sendEmail = await apiInstance.sendTransacEmail({
+      await apiInstance.sendTransacEmail({
         sender,
         to: recivers,
         subject: 'Password reset',

@@ -1,35 +1,32 @@
 import {
+  BadRequestException,
   Body,
   ClassSerializerInterceptor,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
-  Inject,
   Param,
   Patch,
   Post,
-  Delete,
   Query,
   Req,
-  UseGuards,
-  UseInterceptors,
-  forwardRef,
   UploadedFile,
-  BadRequestException,
+  UseInterceptors,
 } from '@nestjs/common'
-import { LocationService } from './location.service'
-import { JwtAuthGuard } from 'modules/auth/guards/jwt.guard'
-import { Public } from 'decorators/public.decorator'
-import { Request, Response } from 'express'
-import { ApiBadRequestResponse, ApiCreatedResponse, ApiTags } from '@nestjs/swagger/dist/index'
-import { PaginatedResult } from 'interfaces/paginated-result.interface'
-import { CreateLocationDto } from './dto/create-location.dto'
-import { Location } from 'entities/location.entity'
-import { UpdateLocationDto } from './dto/update-location.dto'
 import { FileInterceptor } from '@nestjs/platform-express'
+import { ApiBadRequestResponse, ApiCreatedResponse, ApiTags } from '@nestjs/swagger/dist/index'
+import { Public } from 'decorators/public.decorator'
+import { Location } from 'entities/location.entity'
+import { Request } from 'express'
 import { isFileExtensionSafe, removeFile, saveImageToStorage } from 'helpers/imageStorage'
+import { PaginatedResult } from 'interfaces/paginated-result.interface'
 import { join } from 'path'
+
+import { CreateLocationDto } from './dto/create-location.dto'
+import { UpdateLocationDto } from './dto/update-location.dto'
+import { LocationService } from './location.service'
 
 @ApiTags('Location')
 @Controller('location')

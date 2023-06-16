@@ -1,14 +1,14 @@
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
-import { TypeOrmModule } from '@nestjs/typeorm'
-import { AuthModule } from './auth/auth.module'
 import { configValidationSchema } from 'config/schema.config'
 import { LoggerMiddleware } from 'middleware/logger.middleware'
+
+import { AuthModule } from './auth/auth.module'
 import { DatabaseModule } from './database/database.module'
-import { UserModule } from './user/user.module'
-import { LocationModule } from './location/location.module'
 import { GuessModule } from './guess/guess.module'
+import { LocationModule } from './location/location.module'
 import { LogModule } from './log/log.module'
+import { UserModule } from './user/user.module'
 
 @Module({
   imports: [

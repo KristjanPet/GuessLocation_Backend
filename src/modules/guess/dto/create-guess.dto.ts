@@ -1,6 +1,5 @@
-import { IsNotEmpty, IsOptional } from 'class-validator'
-import { Match } from 'decorators/match.decorator'
 import { ApiProperty } from '@nestjs/swagger'
+import { IsNotEmpty } from 'class-validator'
 
 export class CreateGuessDto {
   @ApiProperty({ required: true })

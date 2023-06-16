@@ -1,17 +1,17 @@
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Guess } from 'entities/guess.entity'
-import { Location } from 'entities/location.entity'
 import { PaginatedResult } from 'interfaces/paginated-result.interface'
 import Logging from 'library/Logging'
 import { AuthService } from 'modules/auth/auth.service'
 import { AbstractService } from 'modules/common/abstract.service'
-import { Repository } from 'typeorm'
-import { CreateGuessDto } from './dto/create-guess.dto'
 import { LocationService } from 'modules/location/location.service'
+import { Repository } from 'typeorm'
+
+import { CreateGuessDto } from './dto/create-guess.dto'
 
 @Injectable()
-export class GuessService extends AbstractService {
+export class GuessService extends AbstractService<Guess> {
   constructor(
     @InjectRepository(Guess) private readonly guessRepository: Repository<Guess>,
     private readonly authService: AuthService,
@@ -89,17 +89,17 @@ export class GuessService extends AbstractService {
   }
 
   async calcCrow(lat1: number, lon1, lat2: number, lon2) {
-    var R = 6371 // km
-    var dLat = await this.toRad(lat2 - lat1)
-    var dLon = await this.toRad(lon2 - lon1)
-    var lat1: number = await this.toRad(lat1)
-    var lat2 = await this.toRad(lat2)
+    const R = 6371 // km
+    const dLat = await this.toRad(lat2 - lat1)
+    const dLon = await this.toRad(lon2 - lon1)
+    lat1 = await this.toRad(lat1)
+    lat2 = await this.toRad(lat2)
 
-    var a =
+    const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2)
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-    var d = R * c
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+    const d = R * c
     return d
   }
 

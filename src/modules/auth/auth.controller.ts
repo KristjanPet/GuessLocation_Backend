@@ -11,17 +11,18 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common'
-import { AuthService } from './auth.service'
+import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiTags } from '@nestjs/swagger/dist/index'
 import { Public } from 'decorators/public.decorator'
 import { User } from 'entities/user.entity'
-import { RegisterUserDto } from './dto/register-user.dto'
-import { LocalAuthGuard } from './guards/local-auth.guard'
-import { RequestWithUser } from 'interfaces/auth.interface'
 import { Request, Response } from 'express'
-import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiTags } from '@nestjs/swagger/dist/index'
-import { LoginUserDto } from './dto/login-user.dto'
+import { RequestWithUser } from 'interfaces/auth.interface'
+
+import { AuthService } from './auth.service'
 import { ForgotPasswordDto } from './dto/forgot-password.dto'
+import { LoginUserDto } from './dto/login-user.dto'
+import { RegisterUserDto } from './dto/register-user.dto'
 import { ResetPasswordDto } from './dto/reset-password.dto'
+import { LocalAuthGuard } from './guards/local-auth.guard'
 
 @ApiTags('Auth')
 @Controller('auth')

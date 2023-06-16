@@ -1,4 +1,5 @@
-import { Column, Entity, ManyToOne, JoinColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm'
+
 import { Base } from './base.entity'
 import { User } from './user.entity'
 

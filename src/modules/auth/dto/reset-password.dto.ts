@@ -1,6 +1,6 @@
 // import { ApiProperty } from '@nestjs/swagger'
-import { IsEmail, IsNotEmpty, Matches } from 'class-validator'
 import { ApiProperty } from '@nestjs/swagger'
+import { IsNotEmpty, Matches } from 'class-validator'
 import { Match } from 'decorators/match.decorator'
 
 export class ResetPasswordDto {

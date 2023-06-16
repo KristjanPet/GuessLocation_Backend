@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common'
+import { JwtService } from '@nestjs/jwt'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { Guess } from 'entities/guess.entity'
+import { AuthService } from 'modules/auth/auth.service'
+import { LocationModule } from 'modules/location/location.module'
+import { UserModule } from 'modules/user/user.module'
+
 import { GuessController } from './guess.controller'
 import { GuessService } from './guess.service'
-import { AuthService } from 'modules/auth/auth.service'
-import { JwtService } from '@nestjs/jwt'
-import { UserModule } from 'modules/user/user.module'
-import { LocationService } from 'modules/location/location.service'
-import { LocationModule } from 'modules/location/location.module'
 
 @Module({
   imports: [TypeOrmModule.forFeature([Guess]), UserModule, LocationModule],

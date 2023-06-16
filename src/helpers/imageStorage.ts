@@ -1,5 +1,4 @@
 const FileType = import('file-type')
-import { valid } from '@hapi/joi'
 import fs from 'fs'
 import Logging from 'library/Logging'
 import { diskStorage, Options } from 'multer'

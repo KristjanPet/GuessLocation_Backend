@@ -1,17 +1,17 @@
-import { BadRequestException, Inject, Injectable, InternalServerErrorException, forwardRef } from '@nestjs/common'
+import { BadRequestException, forwardRef, Inject, Injectable, InternalServerErrorException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { User } from 'entities/user.entity'
+import Logging from 'library/Logging'
+import { AuthService } from 'modules/auth/auth.service'
 import { AbstractService } from 'modules/common/abstract.service'
 import { Repository } from 'typeorm'
-import { CreateUserDto } from './Dto/create-user.dto'
-import Logging from 'library/Logging'
-import { UpdateUserDto } from './Dto/update-user.dto'
-import { PostgresErrorCode } from 'helpers/postgresErrorCode.enum'
 import { compareHash, hash } from 'utils/bcrypt'
-import { AuthService } from 'modules/auth/auth.service'
+
+import { CreateUserDto } from './Dto/create-user.dto'
+import { UpdateUserDto } from './Dto/update-user.dto'
 
 @Injectable()
-export class UserService extends AbstractService {
+export class UserService extends AbstractService<User> {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     @Inject(forwardRef(() => AuthService))

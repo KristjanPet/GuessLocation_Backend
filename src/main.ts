@@ -1,10 +1,11 @@
+import { INestApplication, ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import { AppModule } from './modules/app.module'
-import { ValidationPipe, INestApplication } from '@nestjs/common'
 import cookieParser from 'cookie-parser'
 import express from 'express'
 import Logging from 'library/Logging'
+
+import { AppModule } from './modules/app.module'
 
 const initSwagger = (app: INestApplication) => {
   const config = new DocumentBuilder()

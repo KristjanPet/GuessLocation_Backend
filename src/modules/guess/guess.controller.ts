@@ -1,25 +1,11 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Inject,
-  Param,
-  Post,
-  Query,
-  Req,
-  UseGuards,
-  forwardRef,
-} from '@nestjs/common'
-import { JwtAuthGuard } from 'modules/auth/guards/jwt.guard'
-import { Public } from 'decorators/public.decorator'
-import { Request, Response } from 'express'
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Query, Req } from '@nestjs/common'
 import { ApiBadRequestResponse, ApiCreatedResponse, ApiTags } from '@nestjs/swagger/dist/index'
-import { PaginatedResult } from 'interfaces/paginated-result.interface'
-import { GuessService } from './guess.service'
 import { Guess } from 'entities/guess.entity'
+import { Request } from 'express'
+import { PaginatedResult } from 'interfaces/paginated-result.interface'
+
 import { CreateGuessDto } from './dto/create-guess.dto'
+import { GuessService } from './guess.service'
 
 @ApiTags('Guess')
 @Controller('guess')

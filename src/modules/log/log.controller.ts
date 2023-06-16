@@ -5,26 +5,19 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  Inject,
-  Param,
-  Patch,
   Post,
-  Delete,
   Query,
   Req,
-  UseGuards,
   UseInterceptors,
-  forwardRef,
 } from '@nestjs/common'
-import { JwtAuthGuard } from 'modules/auth/guards/jwt.guard'
-import { Public } from 'decorators/public.decorator'
-import { Request, Response } from 'express'
 import { ApiBadRequestResponse, ApiCreatedResponse, ApiTags } from '@nestjs/swagger/dist/index'
-import { PaginatedResult } from 'interfaces/paginated-result.interface'
-import { Location } from 'entities/location.entity'
-import { LogService } from './log.service'
-import { CreateLogDto } from './dto/create-log.dto'
+import { Public } from 'decorators/public.decorator'
 import { Log } from 'entities/log.entity'
+import { Request } from 'express'
+import { PaginatedResult } from 'interfaces/paginated-result.interface'
+
+import { CreateLogDto } from './dto/create-log.dto'
+import { LogService } from './log.service'
 
 @ApiTags('Log')
 @Controller('log')
@@ -40,12 +33,11 @@ export class LogController {
   @Get()
   @HttpCode(HttpStatus.OK)
   async findAll(
-    @Req() req: Request,
+    @Query('userId') userId: string,
     @Query('page') page: number,
     @Query('take') take: number,
   ): Promise<PaginatedResult> {
-    const cookie = req.cookies['access_token']
-    return await this.logService.findAllPaginated(cookie, page, take)
+    return await this.logService.findAllPaginated(userId, page, take)
   }
 
   //POST
