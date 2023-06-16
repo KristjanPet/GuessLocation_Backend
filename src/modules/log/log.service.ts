@@ -12,7 +12,7 @@ import { Repository } from 'typeorm'
 import { CreateLogDto } from './dto/create-log.dto'
 
 @Injectable()
-export class LogService extends AbstractService {
+export class LogService extends AbstractService<Log> {
   constructor(
     @InjectRepository(Log) private readonly logRepository: Repository<Log>,
     private readonly authService: AuthService,
