@@ -33,7 +33,7 @@ async function bootstrap() {
   })
 
   app.enableCors({
-    origin: 'https://geotagger.onrender.com',
+    origin: 'https://guess-location-frontend-qj1upmclm-kristjanpet.vercel.app',
     credentials: true,
   })
   app.use(cookieParser())
