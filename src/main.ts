@@ -33,7 +33,7 @@ async function bootstrap() {
   })
 
   app.enableCors({
-    origin: 'https://guess-location-frontend-qj1upmclm-kristjanpet.vercel.app',
+    origin: 'https://guess-location-frontend-buz480h6b-kristjanpet.vercel.app',
     credentials: true,
   })
   app.use(cookieParser())
