@@ -45,7 +45,8 @@
     "rxjs": "^7.2.0",
     "sib-api-v3-sdk": "^8.5.0",
     "swagger-ui-express": "^4.6.3",
-    "typeorm": "^0.3.10"
+    "typeorm": "^0.3.10",
+    "webpack": "^5.82.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
