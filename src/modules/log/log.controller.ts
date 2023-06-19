@@ -29,7 +29,6 @@ export class LogController {
 
   @ApiCreatedResponse({ description: 'List of latest logs.' })
   @ApiBadRequestResponse({ description: 'Error for list of logs' })
-  @Public()
   @Get()
   @HttpCode(HttpStatus.OK)
   async findAll(
